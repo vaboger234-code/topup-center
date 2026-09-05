@@ -1,0 +1,6 @@
+<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Top Up Center</title><link rel="stylesheet" href="/style.css"></head><body>
+<header><b>🔥 <span id="store">Top Up Center</span></b><a href="#products">Store</a><a href="#faq">FAQ</a></header>
+<section class="hero"><small>FAST • SIMPLE • SECURE</small><h1>Top up your account<br>in seconds.</h1><p>Enter your UID, choose a pack and pay using the displayed QR code.</p><a class="btn" href="#topup">Start Top Up ↓</a></section>
+<main id="topup"><div class="card"><h2>🎮 Verify your UID</h2><p>Enter your in-game User ID. Never share your game password.</p><input id="uid" placeholder="e.g. 1234567890"><select id="region"><option>India</option><option>Other</option></select><button class="btn" onclick="verify()">Verify UID</button><div id="verifyMsg"></div></div>
+<div id="products" class="card"><h2>💎 Pick a pack</h2><div id="list" class="grid"></div></div><div id="pay" class="card hidden"><h2>Scan & Pay</h2><div id="summary"></div><img id="qr" class="qr"><p id="upi"></p><button class="btn" onclick="paid()">✓ I have paid</button></div></main>
+<footer>Never share your game password. This is an independent top-up storefront.</footer><script src="/app.js"></script></body></html>
