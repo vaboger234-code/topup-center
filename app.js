@@ -1,7 +1,22 @@
-let selected=null,orderId=null,settings={};
-async function load(){settings=await fetch("/api/settings").then(r=>r.json());document.querySelector("#store").textContent=settings.storeName;document.querySelector("#upi").textContent=settings.upiId?"UPI: "+settings.upiId:"";if(settings.qrImageUrl)document.querySelector("#qr").src=settings.qrImageUrl;
-const ps=await fetch("/api/products").then(r=>r.json());document.querySelector("#list").innerHTML=ps.map(p=>`<div class="product"><b>${p.name}</b><p>${p.description||""}</p><div class="price">₹${p.price}</div><button class="btn" onclick='choose(${JSON.stringify(p)})'>Select</button></div>`).join("")}
-function verify(){const uid=document.querySelector("#uid").value.trim();document.querySelector("#verifyMsg").textContent=uid?"UID entered. Confirm the UID is correct before paying.":"Enter a UID.";if(uid)document.querySelector("#products").scrollIntoView({behavior:"smooth"})}
-function choose(p){if(!document.querySelector("#uid").value.trim())return alert("Enter your UID first.");selected=p;document.querySelector("#summary").textContent=`UID: ${document.querySelector("#uid").value} • ${p.name} • ₹${p.price}`;document.querySelector("#pay").classList.remove("hidden");document.querySelector("#pay").scrollIntoView({behavior:"smooth"});fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({uid:document.querySelector("#uid").value,region:document.querySelector("#region").value,itemId:p.id})}).then(r=>r.json()).then(x=>orderId=x.orderId)}
-function paid(){if(!orderId)return;fetch("/api/orders/"+orderId+"/paid",{method:"POST"}).then(()=>alert("Payment submitted. Your order is pending manual verification."))}
-load();
+function verify() {
+  const uid = document.querySelector("#uid").value.trim();
+  const msg = document.querySelector("#verifyMsg");
+
+  if (!uid) {
+    msg.textContent = "❌ Please enter your Free Fire UID.";
+    return;
+  }
+
+  if (!/^\d+$/.test(uid)) {
+    msg.textContent = "❌ UID must contain numbers only.";
+    return;
+  }
+
+  if (uid.length < 8 || uid.length > 12) {
+    msg.textContent = "❌ Please enter a valid Free Fire UID.";
+    return;
+  }
+
+  msg.textContent = "✅ UID format is valid. Please confirm your UID before payment.";
+  document.querySelector("#products").scrollIntoView({ behavior: "smooth" });
+}
